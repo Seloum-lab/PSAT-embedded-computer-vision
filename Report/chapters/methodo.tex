@@ -8,20 +8,79 @@ nous allonrs ensuite lister les différents modèles que nous avons décider de 
 {Dans le contexte de la vision par ordinateur, il y a un nombre important de métriques à prendre en compte; des métriques qui 
 représentent par exemple l'efficacité et/ou la précision. Cependant, en ajoutant la dimension des systèmes embarqués, il y a alors 
 encore plus de métriques qui deviennent intéressantes. De plus, certaines métriques deviennent inintéressantes isolées et doivent 
-nécessairement être couplés.
+nécessairement être couplés.}
 
-La première métrique sur laquelle nous allons nous pencher est celle de l'efficactié, celle des FLOPS. Cette métrique étant particulièrement 
+\subsubsection{Efficacité}
+{La première métrique sur laquelle nous allons nous pencher est celle de l'efficactié, celle des FLOPS. Cette métrique étant particulièrement 
 compliqué à mesurer (car le temps d'exécution dépend autant de la mémoire, du parallélisme et du runtime que du nombre d'opérations 
 arithmétiques réellement effectuées), nous allons donc nous baser sur les FLOPS théorique du modèle. Cette grandeur représente le coût 
 de calcul d'un inférence du point de vue purement algorithmique. Cela calcul théoriquement le nombre d'opérations arithmétiques nécessaires 
 étant donné un modèle et la taille de l'entrée. Bien que cette mesure est importante du point de vue du modèle pour estimer son efficacité, elle 
-est totalement décorellé du hardware et est donc à prendre avec des pincettes pour le choix du couple machine-modèle.
+est totalement décorellé du hardware et est donc à prendre avec des pincettes pour le choix du couple machine-modèle.}
 
-Ensuite, nous nous intéresserons aux métriques de performance. Nous allons nous pencher tout d'abord sur la latence, c'est à dire la capcité du 
+\subsubsection{Performance}
+{Ensuite, nous nous intéresserons aux métriques de performance. Nous allons nous pencher tout d'abord sur la latence, c'est à dire la capcité du 
 couple modèle-machine à traiter les image le plus vite possible. Cette mértique représente le temps nécessaire au couple pour traiter une image et 
 cela se mesure en unité temporelle. Ensuite, nous nous intéresserons aussi au débit. Cela représente la quantité d'information traité par le couple par unité 
 de temps. Dans ce cadre, la mesure est faite en FPS (Frame Per Second) et représente le nomre d'image traité par seconde. Bien qu'il y ait une corrélation forte 
 entre ces deux grandeurs, il est quand même important de les prendre toutes deux en compte. On peut en effet avoir des modèls qui traitent l'image quasiment 
 instantannément, mais en un temps important, tout comme des modèls qui au contraite ont besoin de temps pour traiter l'image, mais peut en traiter plusieurs à 
-la fois. Prioriser l'un ou l'autre ou les deux dépendra énormément du cadre d'application et des nécessités de celui-ci.
+la fois. Prioriser l'un ou l'autre ou les deux dépendra énormément du cadre d'application et des nécessités de celui-ci.}
+
+\subsubsection{Précision}
+{Maintenant que nous nous sommes intéressés à l'efficacité et à la performance, il est temps de s'intéresser à la précision. Cette précision est elle quasiment uniquement 
+déterminée par le modèle, mais si le hardware dans une mesure très limité eut avoir un impact (encodage des floats, pruning propre du hardware, etc).
+Cette précision, nous allons la déterminer grâce à deux métriques; la précision et le rappel.
+
+Pour ces deux métriques, on définit d'abord :
+
+\begin{itemize}
+    \item $TP$ (True Positives) : nombre de prédictions correctes pour la classe,
+    \item $FP$ (False Positives) : nombre de prédictions incorrectes pour la classe,
+    \item $FN$ (False Negatives) : nombre de vrais objets non détectés par le modèle.
+\end{itemize}
+
+La précision mesure la proportion de prédictions correctes parmi toutes celles effectuées par le modèle :
+\[
+\text{Précision} = \frac{TP}{TP + FP}
+\]
+Elle indique la fiabilité du modèle lorsqu'il prédit un objet.
+
+Le rappel mesure la proportion de vrais objets correctement détectés parmi tous les objets réels :
+\[
+\text{Rappel} = \frac{TP}{TP + FN}
+\]
+Il reflète la capacité du modèle à ne rien manquer.
+
+On peut également combiner ces deux aspects avec le \textit{F1-score} :
+\[
+F_1 = 2 \cdot \frac{\text{Précision} \cdot \text{Rappel}}{\text{Précision} + \text{Rappel}}
+\]
+utile pour évaluer le compromis entre fiabilité des prédictions et couverture des objets réels.
+La manière de définir la véracité de la prédiction (TP, FP ou FN) peut grandement varier en fonction du domaine applicatif. Dans celui de la computer vision, 
+il y a des protocoles déjà bien définis basé sur l'IoU (Intersecion over Union). Nous détaillerons dans la partie suivante ce protocole.}
+
+
+\subsubsection{Puissance}
+{Enfin, la dernière métrique sur laquelle nous allons nous pencher est celle de la puissance. Cette métrique nous intéresse particulièrement du point de vue 
+des systèmes embarqués car elle permet d’évaluer non seulement l’efficacité énergétique de l’algorithme, mais aussi son impact sur l’autonomie et la chaleur 
+générée par le matériel. Dans les systèmes embarqués, où les ressources sont limitées et où la dissipation thermique doit être maîtrisée, optimiser la puissance 
+consommée devient aussi crucial que maximiser la précision ou l'efficacité.
+
 }
+
+\subsection{Protocole de mesure}
+{Maintenant que nous avons défini les métriques que nous prenons en compte, nous allons expliquer rigoureusement nos méthodes de mesure.}
+
+\subsubsection{Efficacité}
+{Comme dit précédemment, les FLOPS mesurés sont des FLOPS théoriques qui ne dépendent que du modèle et de l'input. en l'occurence, la taille de l'input est en fait la 
+taille de l'image qui est prédéfinie pour chaque modèle (nous préciserons cette taille dans une partie future).
+Pour effectuer ce calcul théoriques, nous nous sommes appuyés sur des librairies pré-existantes, chacune calculant le résultat théorique pour un type de modèle.
+Pour les modèles supporté sur $PyTorch$, nous avons utilisé l'API $thop$, pour les modèles, pour les modèles supportés sur $ONXX$\footnote{Il a été impossible de faire cela pour le modèle SSD Mobile Net supporté par ONXX}, nous avons utilisé l'API $ONXX-tools$, 
+et enfin pour les modèles $YOLO$, nous nous sommes basé sur $Ultralytics$.}
+
+\subsubsection{Performance}
+
+\subsubsection{Précision}
+
+\subsubsection{Puissance}

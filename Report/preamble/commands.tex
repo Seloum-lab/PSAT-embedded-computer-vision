@@ -25,3 +25,14 @@
 
 \titlespacing*{\section}{0pt}{1.5em}{0.5em}
 \titlespacing*{\subsection}{0pt}{1em}{0.4em}
+
+\titleformat{\subsubsection}[runin] % runin = inline
+  {\bfseries}                      % formatting (bold)
+  {}                                % no number
+  {0pt}                             % spacing between label and title (irrelevant since no number)
+  {}    
+
+\titlespacing*{\subsubsection}
+  {0pt}    % left margin
+  {0.5em}  % space before
+  {0.5em}  % space after the heading (before text)
