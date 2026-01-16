@@ -11,25 +11,25 @@ encore plus de métriques qui deviennent intéressantes. De plus, certaines mét
 nécessairement être couplés.}
 
 \subsubsection{Efficacité}
-{La première métrique sur laquelle nous allons nous pencher est celle de l'efficactié, celle des FLOPS. Cette métrique étant particulièrement 
+{La première métrique sur laquelle nous allons nous pencher est celle de l'efficacité, celle des FLOPS. Cette métrique étant particulièrement 
 compliqué à mesurer (car le temps d'exécution dépend autant de la mémoire, du parallélisme et du runtime que du nombre d'opérations 
 arithmétiques réellement effectuées), nous allons donc nous baser sur les FLOPS théorique du modèle. Cette grandeur représente le coût 
-de calcul d'un inférence du point de vue purement algorithmique. Cela calcul théoriquement le nombre d'opérations arithmétiques nécessaires 
-étant donné un modèle et la taille de l'entrée. Bien que cette mesure est importante du point de vue du modèle pour estimer son efficacité, elle 
-est totalement décorellé du hardware et est donc à prendre avec des pincettes pour le choix du couple machine-modèle.}
+de calcul d'une inférence du point de vue purement algorithmique. Cela calcule théoriquement le nombre d'opérations arithmétiques nécessaires 
+étant donné un modèle et la taille de l'entrée. Bien que cette mesure soit importante du point de vue du modèle pour estimer son efficacité, elle 
+est totalement décorrélée du hardware et est donc à prendre avec des pincettes pour le choix du couple machine-modèle.}
 
 \subsubsection{Performance}
-{Ensuite, nous nous intéresserons aux métriques de performance. Nous allons nous pencher tout d'abord sur la latence, c'est à dire la capcité du 
-couple modèle-machine à traiter les image le plus vite possible. Cette mértique représente le temps nécessaire au couple pour traiter une image et 
-cela se mesure en unité temporelle. Ensuite, nous nous intéresserons aussi au débit. Cela représente la quantité d'information traité par le couple par unité 
-de temps. Dans ce cadre, la mesure est faite en FPS (Frame Per Second) et représente le nomre d'image traité par seconde. Bien qu'il y ait une corrélation forte 
-entre ces deux grandeurs, il est quand même important de les prendre toutes deux en compte. On peut en effet avoir des modèls qui traitent l'image quasiment 
-instantannément, mais en un temps important, tout comme des modèls qui au contraite ont besoin de temps pour traiter l'image, mais peut en traiter plusieurs à 
+{Ensuite, nous nous intéresserons aux métriques de performance. Nous allons nous pencher tout d'abord sur la latence, c'est à dire la capacité du 
+couple modèle-machine à traiter les image le plus vite possible. Cette métrique représente le temps nécessaire au couple pour traiter une image et 
+cela se mesure en unité temporelle. Ensuite, nous nous intéresserons aussi au débit. Cela représente la quantité d'information traitée par le couple par unité 
+de temps. Dans ce cadre, la mesure est faite en FPS (Frame Per Second) et représente le nombre d'images traitées par seconde. Bien qu'il y ait une corrélation forte 
+entre ces deux grandeurs, il est quand même important de les prendre toutes deux en compte. On peut en effet avoir des modèles qui traitent l'image quasiment 
+instantanément, mais en un temps important, tout comme des modèles qui au contraire ont besoin de temps pour traiter l'image, mais peuvent en traiter plusieurs à 
 la fois. Prioriser l'un ou l'autre ou les deux dépendra énormément du cadre d'application et des nécessités de celui-ci.}
 
 \subsubsection{Précision}
 {Maintenant que nous nous sommes intéressés à l'efficacité et à la performance, il est temps de s'intéresser à la précision. Cette précision est elle quasiment uniquement 
-déterminée par le modèle, mais si le hardware dans une mesure très limité eut avoir un impact (encodage des floats, pruning propre du hardware, etc).
+déterminée par le modèle, mais un hardware très limité peut avoir un impact (encodage des floats, pruning propre du hardware, etc).
 Cette précision, nous allons la déterminer grâce à deux métriques; la précision et le rappel.
 
 Pour ces deux métriques, on définit d'abord :
@@ -87,7 +87,7 @@ et enfin pour les modèles $YOLO$, nous nous sommes basé sur $Ultralytics$.}
 
 
 \subsection{Les modèles}
-Pour effectuer ce benchmark, nous avons utilisé différents modèles afin de les comparer, mais aussi différents framework de support pour ces derniers. Voici 
+Pour effectuer ce benchmark, nous avons utilisé différents modèles afin de les comparer, mais aussi différents frameworks de support pour ces derniers. Voici 
 la liste exhaustive des modèles comparés, et pour chacun d'entre eux le framework de support.
 
 \subsubsection{YOLOv5}
@@ -100,15 +100,15 @@ la liste exhaustive des modèles comparés, et pour chacun d'entre eux le framew
 
 
 \subsection{Le hardware}
-{Pour effectuer le banchmark, nous avons utilisé deux supports différents de systèmes embarqués, tous deux des rasberry pie.}
+{Pour effectuer le banchmark, nous avons utilisé deux supports différents de systèmes embarqués, tous deux des Rasberry Pi.}
 
-\subsubsection{RasberryPie 4}
-{Le Raspberry Pi 4 est équipé d’un processeur Quad-Core Cortex-A72 cadencé à 1,5 GHz et dispose de 2, 4 ou 8 Go de RAM (TODO mettre le bon). 
+\subsubsection{Rasberry Pi 4}
+{La Raspberry Pi 4 est équipé d’un processeur Quad-Core Cortex-A72 cadencé à 1,5 GHz et dispose de 2, 4 ou 8 Go de RAM (TODO mettre le bon). 
 Pour la capture d’images, nous utilisons le module officiel Raspberry Pi Camera Module 3, qui se connecte via l’interface CSI et permet des 
 prises de vue haute résolution et à grande vitesse. Cette caméra n’est compatible qu’avec la Pi 4, mais nous utilisons également une caméra Logitech 
 C860 USB, qui fonctionne avec le Pi 4 et fournit une solution alternative pour la capture d’images standard.}
 
-\subsubsection{RasberryPie 5}
-{Le Raspberry Pi 5 apporte des améliorations notables en performance, avec un processeur plus rapide et une meilleure gestion de l’USB 
-et de l’affichage. En revanche, le Raspberry Pi Camera Module 3 n’est pas compatible avec ce modèle. Pour la capture d'images nous utilisons exclusivement 
+\subsubsection{Rasberry Pi 5}
+{La Raspberry Pi 5 apporte des améliorations notables en performance, avec un processeur plus rapide et une meilleure gestion de l’USB 
+et de l’affichage. En revanche, la Raspberry Pi Camera Module 3 n’est pas compatible avec ce modèle. Pour la capture d'images nous utilisons exclusivement 
 la caméra Logitech USB, qui assure une compatibilité totale et un flux vidéo stable pour les deux générations de Raspberry Pi.}
