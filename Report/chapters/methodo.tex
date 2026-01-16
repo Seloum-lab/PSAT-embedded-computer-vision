@@ -76,7 +76,7 @@ consommée devient aussi crucial que maximiser la précision ou l'efficacité.
 {Comme dit précédemment, les FLOPS mesurés sont des FLOPS théoriques qui ne dépendent que du modèle et de l'input. en l'occurence, la taille de l'input est en fait la 
 taille de l'image qui est prédéfinie pour chaque modèle (nous préciserons cette taille dans une partie future).
 Pour effectuer ce calcul théoriques, nous nous sommes appuyés sur des librairies pré-existantes, chacune calculant le résultat théorique pour un type de modèle.
-Pour les modèles supporté sur $PyTorch$, nous avons utilisé l'API $thop$, pour les modèles, pour les modèles supportés sur $ONXX$\footnote{Il a été impossible de faire cela pour le modèle SSD Mobile Net supporté par ONXX}, nous avons utilisé l'API $ONXX-tools$, 
+Pour les modèles supporté sur $PyTorch$, nous avons utilisé l'API $thop$, pour les modèles, pour les modèles supportés sur $ONXX$\footnote{Il a été impossible de faire cela pour le modèle MobileNet SSD supporté par ONXX}, nous avons utilisé l'API $ONXX-tools$, 
 et enfin pour les modèles $YOLO$, nous nous sommes basé sur $Ultralytics$.}
 
 \subsubsection{Performance}
@@ -87,6 +87,16 @@ et enfin pour les modèles $YOLO$, nous nous sommes basé sur $Ultralytics$.}
 
 
 \subsection{Les modèles}
+Pour effectuer ce benchmark, nous avons utilisé différents modèles afin de les comparer, mais aussi différents framework de support pour ces derniers. Voici 
+la liste exhaustive des modèles comparés, et pour chacun d'entre eux le framework de support.
+
+\subsubsection{YOLOv5}
+
+\subsubsection{YOLOv11}
+
+\subsubsection{FasterCNN}
+
+\subsubsection{MobileNet SSD}
 
 
 \subsection{Le hardware}
@@ -96,7 +106,7 @@ et enfin pour les modèles $YOLO$, nous nous sommes basé sur $Ultralytics$.}
 {Le Raspberry Pi 4 est équipé d’un processeur Quad-Core Cortex-A72 cadencé à 1,5 GHz et dispose de 2, 4 ou 8 Go de RAM (TODO mettre le bon). 
 Pour la capture d’images, nous utilisons le module officiel Raspberry Pi Camera Module 3, qui se connecte via l’interface CSI et permet des 
 prises de vue haute résolution et à grande vitesse. Cette caméra n’est compatible qu’avec la Pi 4, mais nous utilisons également une caméra Logitech 
-USB, qui fonctionne avec le Pi 4 et fournit une solution alternative pour la capture d’images standard.}
+C860 USB, qui fonctionne avec le Pi 4 et fournit une solution alternative pour la capture d’images standard.}
 
 \subsubsection{RasberryPie 5}
 {Le Raspberry Pi 5 apporte des améliorations notables en performance, avec un processeur plus rapide et une meilleure gestion de l’USB 
