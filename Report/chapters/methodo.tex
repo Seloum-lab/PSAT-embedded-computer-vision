@@ -58,7 +58,7 @@ F_1 = 2 \cdot \frac{\text{Précision} \cdot \text{Rappel}}{\text{Précision} + \
 \]
 utile pour évaluer le compromis entre fiabilité des prédictions et couverture des objets réels.
 La manière de définir la véracité de la prédiction (TP, FP ou FN) peut grandement varier en fonction du domaine applicatif. Dans celui de la computer vision, 
-il y a des protocoles déjà bien définis basé sur l'IoU (Intersecion over Union). Nous détaillerons dans la partie suivante ce protocole.}
+il y a des protocoles déjà bien définis basés sur l'IoU (Intersecion over Union). Nous détaillerons dans la partie suivante ce protocole.}
 
 
 \subsubsection{Puissance}
@@ -76,8 +76,8 @@ consommée devient aussi crucial que maximiser la précision ou l'efficacité.
 {Comme dit précédemment, les FLOPS mesurés sont des FLOPS théoriques qui ne dépendent que du modèle et de l'input. en l'occurence, la taille de l'input est en fait la 
 taille de l'image qui est prédéfinie pour chaque modèle (nous préciserons cette taille dans une partie future).
 Pour effectuer ce calcul théoriques, nous nous sommes appuyés sur des librairies pré-existantes, chacune calculant le résultat théorique pour un type de modèle.
-Pour les modèles supporté sur $PyTorch$, nous avons utilisé l'API $thop$, pour les modèles, pour les modèles supportés sur $ONXX$\footnote{Il a été impossible de faire cela pour le modèle MobileNet SSD supporté par ONXX}, nous avons utilisé l'API $ONXX-tools$, 
-et enfin pour les modèles $YOLO$, nous nous sommes basé sur $Ultralytics$.}
+Pour les modèles supporté sur $PyTorch$, nous avons utilisé l'API $thop$, pour les modèles supportés sur $ONXX$\footnote{Il a été impossible de faire cela pour le modèle MobileNet SSD supporté par ONXX}, nous avons utilisé l'API $ONXX-tools$, 
+et enfin pour les modèles $YOLO$, nous nous sommes basés sur $Ultralytics$.}
 
 \subsubsection{Performance}
 Afin de mesurer les performances, nous nous sommes intéressés à la latence pendant l'inférence, ainsi qu'au debit en FPS.
