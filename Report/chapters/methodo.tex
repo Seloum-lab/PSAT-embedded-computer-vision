@@ -80,10 +80,18 @@ Pour les modèles supporté sur $PyTorch$, nous avons utilisé l'API $thop$, pou
 et enfin pour les modèles $YOLO$, nous nous sommes basé sur $Ultralytics$.}
 
 \subsubsection{Performance}
+Afin de mesurer les performances, nous nous sommes intéressés à la latence pendant l'inférence, ainsi qu'au debit en FPS.
+Pour ce faire, nous avons intégré une mesure du temps d'inférence directement dans le code de test.
+Les mesures ont été stockées dans un fichier pour chaque exécution de 30 secondes, puis nous avons calculé la moyenne pour 10 exécutions consécutives.
 
 \subsubsection{Précision}
 
 \subsubsection{Puissance}
+Dans le but de mesurer la puissance consommée par le système lors de l'exécution des modèles, nous avons utilisé un wattmètre branché sur la prise secteur alimentant la Raspberry Pi.
+Ce dispositif nous a permis de capturer la consommation électrique en temps réel pendant et en dehors des périodes d'inférence.
+Cependant le dispositif étant plutôt adapté pour des mesures plus importantes, les mesures ont une certaine incertitude.
+De plus, nous n'avions accès qu'à la valeur instantanée, sans moyen d'enregistrer les données afin de les agréger.
+Ainsi, nous avons relevé manuellement la consommation avant le début de l'inférence et pendant, en effectuant une moyenne si les valeurs variaient.
 
 
 \subsection{Les modèles}
@@ -91,19 +99,38 @@ Pour effectuer ce benchmark, nous avons utilisé différents modèles afin de le
 la liste exhaustive des modèles comparés, et pour chacun d'entre eux le framework de support.
 
 \subsubsection{YOLOv5}
+YOLOv5 (You Only Look Once) est une famille de modèles de détection d'objets en temps réel développée par Ultralytics.
+Sorti en 2020, YOLOv5 est conçu pour être rapide et efficace, permettant des performances élevées même sur des matériels limités.
+Il utilise une architecture de réseau de neurones convolutifs (CNN) optimisée pour la détection d'objets, avec des améliorations telles que des couches de convolution plus profondes et des techniques de régularisation avancées.
+YOLOv5 est disponible en plusieurs variantes (nano, small, medium, large, xlarge) pour s'adapter à différents besoins en termes de vitesse et de précision.
+Dans le cadre de ce benchmark, nous avons utilisé la version YOLOv5n (nano) pour maximiser la vitesse d'inférence sur les systèmes embarqués.
 
 \subsubsection{YOLOv11}
+YOLOv11 est une des dernières itérations de la série YOLO, sorti en 2024, introduisant des améliorations significatives en termes de précision et d'efficacité.
+Il intègre des techniques avancées telles que l'attention spatiale et des modules de fusion de caractéristiques pour améliorer la détection d'objets dans des environnements complexes.
+YOLOv11 est conçu pour être encore plus rapide que ses prédécesseurs, tout en maintenant une haute précision, ce qui le rend idéal pour les applications en temps réel sur des dispositifs embarqués.
+Pour ce benchmark, nous avons utilisé la version YOLOv11n (nano), qui est optimisée pour les performances sur des matériels à ressources limitées.
+Cependant, plus de précision implique souvent plus de calcul, et donc un compromis à évaluer.
 
 \subsubsection{FasterCNN}
+Sorti en 2015, Faster R-CNN (Region-based Convolutional Neural Networks) est une architecture de détection d'objets qui a révolutionné le domaine en introduisant un réseau de propositions de régions (RPN) pour générer des propositions d'objets de manière efficace.
+Faster R-CNN utilise un réseau de neurones convolutifs pour extraire des caractéristiques de l'image, suivi par le RPN qui propose des régions d'intérêt susceptibles de contenir des objets.
+Ces régions sont ensuite affinées et classifiées par un réseau de classification.
+Faster R-CNN est connu pour sa haute précision, mais il est généralement plus lent que des modèles plus récents basés sur des architectures différentes.
+Dans ce benchmark, nous avons utilisé une version allégée de Faster R-CNN basée sur un backbone MobileNetV3 pour améliorer la vitesse d'inférence sur les systèmes embarqués.
 
 \subsubsection{MobileNet SSD}
+MobileNet SSD (Single Shot MultiBox Detector) est une architecture de détection d'objets légère et efficace sortie en 2017.
+Elle combine le réseau MobileNet, conçu pour être rapide et peu gourmand en ressources, avec le SSD, qui permet de détecter des objets en une seule passe à travers l'image.
+MobileNet SSD est particulièrement adapté aux applications mobiles et embarquées en raison de sa faible empreinte mémoire et de sa rapidité d'inférence.
+Il utilise des convolutions séparables en profondeur pour réduire le nombre de paramètres tout en maintenant une bonne précision.
 
 
 \subsection{Le hardware}
 {Pour effectuer le banchmark, nous avons utilisé deux supports différents de systèmes embarqués, tous deux des Rasberry Pi.}
 
 \subsubsection{Rasberry Pi 4}
-{La Raspberry Pi 4 est équipé d’un processeur Quad-Core Cortex-A72 cadencé à 1,5 GHz et dispose de 2, 4 ou 8 Go de RAM (TODO mettre le bon). 
+{La Raspberry Pi 4 est équipée d’un processeur Quad-Core Cortex-A72 cadencé à 1,5 GHz et dispose de 4 Go de RAM. 
 Pour la capture d’images, nous utilisons le module officiel Raspberry Pi Camera Module 3, qui se connecte via l’interface CSI et permet des 
 prises de vue haute résolution et à grande vitesse. Cette caméra n’est compatible qu’avec la Pi 4, mais nous utilisons également une caméra Logitech 
 C860 USB, qui fonctionne avec le Pi 4 et fournit une solution alternative pour la capture d’images standard.}
